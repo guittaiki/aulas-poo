@@ -1,11 +1,18 @@
 <?php
+use App\Pedidos\Pedido;
+use App\Pedidos\StatusPedido;
+use App\Relatorios\Pedido as RelatorioPedido;
 
-require_once "./src/Notificador.php";
-require_once "./src/NotificadorEmail.php";
-require_once "./src/StatusPedido.php"; // a Enumeração DEVE vir primeiro
-require_once "./src/Pedido.php"; // pois a classe Pedido precisa dela
+// Atualizando os caminhos físicos (pasta/arquivo.php)
+require_once "./src/Notificacoes/Notificador.php";
+require_once "./src/Notificacoes/NotificadorEmail.php";
+require_once "./src/Pedidos/StatusPedido.php"; // a Enumeração DEVE vir primeiro
+require_once "./src/Pedidos/Pedido.php"; // pois a classe Pedido precisa dela
+require_once "./src/Relatorios/Pedido.php";
 
-$notificadorPorEmail = new NotificadorEmail();
+// Veja que nessa primeira forma, precisamos passar o nome completo da classe.
+$notificadorPorEmail = new App\Notificacoes\NotificadorEmail();
+
 $pedido1 = new Pedido(1000, "Fulano da Silva", StatusPedido::Pendente);
 $pedido2 = new Pedido(1001, "Beltrano Souza", StatusPedido::Pendente);
 $pedido3 = new Pedido(1004, "José da Silva", StatusPedido::AguardandoPagamento);
@@ -59,16 +66,21 @@ $pedidos = [
 
         <section class="card-conteudo">
             <h2>Resumo/Total dos envios de notificações</h2>
-            <p>E-mails enviados: <b><?= NotificadorEmail::getQuantidadeEnviada(); ?></b></p>
+            <p>E-mails enviados: <b><?= APP\Notificacoes\NotificadorEmail::getQuantidadeEnviada(); ?></b></p>
         </section>
 
         <div class="assuntos-estudados">
             <h2>Assuntos estudantes</h2>
             <ul>
-                <li>Enumerações com um conjunto definido de opções usando <b>case</b></li>
-                <li>Casos associados a valores do tipo <b>string</b></li>
-                <li>Acesso a um caso com <b>StatusPedido::NomeDoCaso</b></li>
-                <li>Acesso ao valor/texto do caso com <b>->value</b></li>
+                <li>Reorganização dos arquivos em pastas dentro de <b>src</b></li>
+                <li>Declaração do namespace e do subnamespace em cada arquivo</li>
+                <li>Utilização do nome completo de um recurso: <b>App\Pedidos\Pedido</b></li>
+                <li>Importação do namespace com <b>use</b> para utilizar nomes simples</li>
+                <li>Criação de apelidos com <b>as</b> para solucionar conflitos de nomes</li>
+                <li>Lembrete:
+                    <b>use</b> importa namespaces;
+                    <b>require_once</b> carrega arquivos
+                </li>
             </ul>
         </div>
 
