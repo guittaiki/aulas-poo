@@ -1,31 +1,24 @@
 <?php
 
 require_once "./src/Notificador.php";
-
 require_once "./src/NotificadorEmail.php";
-
-require_once "./src/NotificadorSMS.php";
+require_once "./src/StatusPedido.php"; // a Enumeração DEVE vir primeiro
+require_once "./src/Pedido.php"; // pois a classe Pedido precisa dela
 
 $notificadorPorEmail = new NotificadorEmail();
-$notificadorPorSMS =  new NotificadorSMS();
+$pedido1 = new Pedido(1000, "Fulano da Silva", StatusPedido::Pendente);
+$pedido2 = new Pedido(1001, "Beltrano Souza", StatusPedido::Pendente);
+$pedido3 = new Pedido(1004, "José da Silva", StatusPedido::AguardandoPagamento);
+$pedido4 = new Pedido(1005, "Mônica Santos", StatusPedido::SaiuParaEntrega);
 
-// Pedido 123abc
+$pedido3->setStatus(StatusPedido::Pago);
 
-$emailPedido1 = $notificadorPorEmail->enviar("Seu pedido 123abc foi confirmado");
-$smsPedido1 = $notificadorPorSMS->enviar("Seu pedido 123abc foi confirmado");
-
-$emailPedido2 = $notificadorPorEmail->enviar("Seu pedido 987xyz foi confirmado");
-$smsPedido2 = $notificadorPorSMS->enviar("Seu pedido 987xyz foi confirmado");
-
-$emailPedido3 = $notificadorPorEmail->enviar("Seu pedido 567ghi foi confirmado");
-$smsPedido3 = $notificadorPorSMS->enviar("Seu pedido 567ghi foi confirmado");
-
-// Pedido
-
-// *************
-
-$notificadorPorEmailTeste2 = new NotificadorEmail();
-$notificadorPorEmailTeste3 = new NotificadorEmail();
+$pedidos = [
+    $pedido1, 
+    $pedido2, 
+    $pedido3, 
+    $pedido4
+];
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +27,7 @@ $notificadorPorEmailTeste3 = new NotificadorEmail();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notificações da loja virtual</title>
+    <title>Pedidos da loja virtual</title>
     <link rel="stylesheet" href="css/estilo.css">
 </head>
 
@@ -42,29 +35,24 @@ $notificadorPorEmailTeste3 = new NotificadorEmail();
     <div class="container">
         <header>
             <p class="destaque">Loja virtual</p>
-            <h1>Notificações da loja virtual</h1>
-            <p>Simulações de notificações sobre pedidos por e-mail e SMS</p>
+            <h1>Loja virtual</h1>
+            <p>Cada pedido possui um status: Pendente, Aguardando pagamento, Em progresso Ou Saiu para entegra</p>
         </header>
 
         <div class="conteudos">
-
-            <article class="card-conteudo">
-                <h2>Notificações: Pedido 123abc</h2>
-                <p><?= $emailPedido1 ?></p>
-                <p><?= $smsPedido1 ?></p>
-            </article>
-
-            <article class="card-conteudo">
-                <h2>Notificações: Pedido 987xyz</h2>
-                <p><?= $emailPedido2 ?></p>
-                <p><?= $smsPedido2 ?></p>
-            </article>
-
-            <article class="card-conteudo">
-                <h2>Notificações: Pedido 567ghi</h2>
-                <p><?= $emailPedido3 ?></p>
-                <p><?= $smsPedido3 ?></p>
-            </article>
+            <?php foreach ($pedidos as $pedido): ?>
+                <article class="card-conteudo">
+                    <h2>Pedido #<?= $pedido->getNumero() ?></h2>
+                    <p>Cliente: <?= $pedido->getCliente() ?></p>
+                    <p>Status: 
+                        <b class="destaque"> <?= $pedido->getStatus()->value ?></b>
+                    </p>
+                    <?php
+                        $mensagem = "Seu pedido #" . $pedido->getNumero() . " está com o status: " . $pedido->getStatus()->value
+                    ?>
+                    <p><small><?= $notificadorPorEmail->enviar($mensagem); ?></small></p>
+                </article>
+            <?php endforeach; ?>
         </div>
 
         <hr>
@@ -72,16 +60,16 @@ $notificadorPorEmailTeste3 = new NotificadorEmail();
         <section class="card-conteudo">
             <h2>Resumo/Total dos envios de notificações</h2>
             <p>E-mails enviados: <b><?= NotificadorEmail::getQuantidadeEnviada(); ?></b></p>
-            <p>SMS enviados: <b><?= NotificadorSMS::getQuantidadeEnviada(); ?></b></p>
-
         </section>
 
         <div class="assuntos-estudados">
-            <li>Propriedade estática usando <b>static</b></li>
-            <li>Métodos estáticos usando <b>static</b></li>
-            <li>Acesso a recursos estáticos com <b>::</b></li>
-            <li>Acesso a recursos estáticos da própria classe usando <b>self</b></li>
-            <li>Diferença entre usar recursos estáticos de classe e recrusos de objeto.</li>
+            <h2>Assuntos estudantes</h2>
+            <ul>
+                <li>Enumerações com um conjunto definido de opções usando <b>case</b></li>
+                <li>Casos associados a valores do tipo <b>string</b></li>
+                <li>Acesso a um caso com <b>StatusPedido::NomeDoCaso</b></li>
+                <li>Acesso ao valor/texto do caso com <b>->value</b></li>
+            </ul>
         </div>
 
     </div>
