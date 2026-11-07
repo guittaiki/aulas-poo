@@ -1,14 +1,10 @@
 <?php
+use App\Saudacao;
 use App\Pedidos\Pedido;
 use App\Pedidos\StatusPedido;
 use App\Relatorios\Pedido as RelatorioPedido;
 
-// Atualizando os caminhos físicos (pasta/arquivo.php)
-require_once "./src/Notificacoes/Notificador.php";
-require_once "./src/Notificacoes/NotificadorEmail.php";
-require_once "./src/Pedidos/StatusPedido.php"; // a Enumeração DEVE vir primeiro
-require_once "./src/Pedidos/Pedido.php"; // pois a classe Pedido precisa dela
-require_once "./src/Relatorios/Pedido.php";
+require_once "vendor/autoload.php";
 
 // Veja que nessa primeira forma, precisamos passar o nome completo da classe.
 $notificadorPorEmail = new App\Notificacoes\NotificadorEmail();
@@ -26,6 +22,9 @@ $pedidos = [
     $pedido3, 
     $pedido4
 ];
+
+$saudacao = new Saudacao();
+echo $saudacao->cumprimentar();
 ?>
 
 <!DOCTYPE html>
@@ -72,15 +71,7 @@ $pedidos = [
         <div class="assuntos-estudados">
             <h2>Assuntos estudantes</h2>
             <ul>
-                <li>Reorganização dos arquivos em pastas dentro de <b>src</b></li>
-                <li>Declaração do namespace e do subnamespace em cada arquivo</li>
-                <li>Utilização do nome completo de um recurso: <b>App\Pedidos\Pedido</b></li>
-                <li>Importação do namespace com <b>use</b> para utilizar nomes simples</li>
-                <li>Criação de apelidos com <b>as</b> para solucionar conflitos de nomes</li>
-                <li>Lembrete:
-                    <b>use</b> importa namespaces;
-                    <b>require_once</b> carrega arquivos
-                </li>
+                
             </ul>
         </div>
 
