@@ -7,12 +7,24 @@ class Filme
     private string $genero;
     private int $ano;
 
-    public function ehClassico() : bool 
-    {
+    // Método CONSTRUTOR: a finalidade deste método
+    // é receber dados (através de parãmetros) no momento da criação do onjeto
+    // e atribuí-los às propriedades. Este método NÃO POSSUI retorno.
+    public function __construct(string $titulo, string $genero, int $ano) {
+        // Atribuindo os valores recebidos pelos parâmetros ás propriedades
+        $this->titulo = $titulo;
+        $this->genero = $genero;
+        $this->ano = $ano;
+
+        // Dica: podemos (ou, dependendo do caso, devemos) usar os setters
+        // através do construtor.
+        //$this->setAno($ano);
+    }
+
+    public function ehClassico() : bool {
         return $this->ano < 2000;
     }
 
-    // Métodos getters: permitem ACESSO/LEITURA (ler dados).
     public function getTitulo() : string {
         return $this->titulo;
     }
@@ -25,8 +37,6 @@ class Filme
         return $this->ano;
     }
 
-    // Métodos setters: permitem ACESSO/ESCRITA (colocar dados)
-    // Setter recebem através de parâmetros os dados a serem colocados nas propriedades.
     public function setTitulo (string $titulo) : void {
         $this->titulo = $titulo;
     }
@@ -34,6 +44,8 @@ class Filme
         $this->genero = $genero;
     }
     public function setAno (string $ano) : void {
-        $this->ano = $ano;
+        if ($ano > 0) {
+            $this->ano = $ano;
+        }
     }
 }
