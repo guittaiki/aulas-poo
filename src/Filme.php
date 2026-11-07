@@ -1,51 +1,26 @@
 <?php
 // src/Filme.php
 
-class Filme
-{
-    private string $titulo;
-    private string $genero;
-    private int $ano;
+class Filme extends Conteudo {
+    // Propriedade específica da classe Filme
+    private int $duracao;
 
-    // Método CONSTRUTOR: a finalidade deste método
-    // é receber dados (através de parãmetros) no momento da criação do onjeto
-    // e atribuí-los às propriedades. Este método NÃO POSSUI retorno.
-    public function __construct(string $titulo, string $genero, int $ano) {
-        // Atribuindo os valores recebidos pelos parâmetros ás propriedades
-        $this->titulo = $titulo;
-        $this->genero = $genero;
-        $this->ano = $ano;
-
-        // Dica: podemos (ou, dependendo do caso, devemos) usar os setters
-        // através do construtor.
-        //$this->setAno($ano);
+    // Método construtor específica da subclasse Filme
+    // Responsável por receber os valores no momento da criação de objeto Filme (incluindo a duração)
+    public function __construct(string $titulo, string $genero, int $ano, int $duracao) {
+        /* Chamamos o construtor da superclasse (classe pai) usando parent::__construct().
+        Isso é necessário pois estes valores pertecem às propriedades da classe pai.*/
+        parent::__construct($titulo, $genero, $ano);
+        $this->duracao = $duracao;
     }
 
-    public function ehClassico() : bool {
-        return $this->ano < 2000;
+    public function getDuracao() : int {
+        return $this->duracao;
     }
 
-    public function getTitulo() : string {
-        return $this->titulo;
-    }
-
-    public function getGenero () : string {
-        return $this->genero;
-    }
-
-    public function getAno () : int {
-        return $this->ano;
-    }
-
-    public function setTitulo (string $titulo) : void {
-        $this->titulo = $titulo;
-    }
-    public function setGenero (string $genero) : void {
-        $this->genero = $genero;
-    }
-    public function setAno (string $ano) : void {
-        if ($ano > 0) {
-            $this->ano = $ano;
-        }
+    public function setDuracao(int $duracao) : void {
+        $this->duracao = $duracao;
     }
 }
+
+?>
